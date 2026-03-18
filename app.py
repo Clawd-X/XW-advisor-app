@@ -1,14 +1,15 @@
 import streamlit as st
 
-st.title("College Advisor")
+st.set_page_config(page_title="College Advisor", layout="wide")
 
-gpa = st.number_input("Enter your GPA", min_value=0.0, max_value=4.0, step=0.1)
-sat = st.number_input("Enter your SAT score", min_value=400, max_value=1600, step=10)
+st.title("🎓 College Advisor")
+st.subheader("Academic Stats")
+st.divider()
 
-if st.button("Get Recommendation"):
-    if gpa >= 3.8 and sat >= 1450:
-        st.write("Reach: Top 20 schools")
-    elif gpa >= 3.5:
-        st.write("Match: Strong state schools")
-    else:
-        st.write("Safety: Build a balanced list")
+st.write("Use the sidebar to navigate between tools.")
+
+st.markdown("""
+### Features:
+- 📊 Stats-based college matching  
+- ✍️ Short answer / essay help  
+""")
