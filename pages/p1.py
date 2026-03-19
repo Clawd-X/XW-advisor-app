@@ -30,3 +30,6 @@ if st.button("Get Recommendations"):
         st.info("Match: Strong universities")
     else:
         st.warning("Safety: Build a balanced list")
+
+budget = st.radio("What is your budget? ", ["5000>", "5000-50000", "50000-100000","67 million<"])
+preferences = st.multiselect("What are some things that interest you? ", ["Computers","Art","Nature","Music","Biology","Chemistry","Physics","History"])

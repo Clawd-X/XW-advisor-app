@@ -1,3 +1,4 @@
+import streamlit as st
 
 st.set_page_config(
     page_title="debug world",
@@ -27,8 +28,8 @@ with col1:
 
 with col2:
     st.slider("SAT", 400, 1600)
-    with st.container():
-st.write("Grouped content")
+with st.container():
+    st.write("Grouped content")
 st.divider()
 st.success("Good result")
 st.warning("Be careful")
