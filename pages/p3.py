@@ -47,3 +47,14 @@ if st.button("Increment"):
     st.session_state.count += 1
 
 st.write(st.session_state.count)
+
+def play_sound():
+    st.markdown("""
+        <audio autoplay>
+        <source src="https://www.soundjay.com/buttons/sounds/button-16.mp3" type="audio/mp3">
+        </audio>
+    """, unsafe_allow_html=True)
+
+if st.button("Submit"):
+    play_sound()
+    st.success("Submitted!")
