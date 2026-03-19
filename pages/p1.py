@@ -12,7 +12,9 @@ st.header("Enter information below to get started!")
 st.divider()
 
 st.header("Lets get to know you! ")
-name = st.text_input("What's your name? (optional)", key="name")
+
+name_input = st.text_input("What's your name? (optional)", key="name_input")
+name = name_input.strip()
 
 # Initialize state
 if "confirmed" not in st.session_state:
@@ -25,8 +27,6 @@ if st.button("Confirm", key="confirm_name"):
 # Step 2: Reveal section AFTER click
 if st.session_state.confirmed:
     st.divider()
-
-    name = st.session_state.name.strip()
 
     if name == "":
         name = "User"
