@@ -36,6 +36,11 @@ st.warning("Be careful")
 st.error("Something broke")
 st.info("FYI")
 st.json({"gpa": 3.9, "sat": 1450})
+data = {
+    "School": ["UCLA", "Stanford", "UC Davis"],
+    "Category": ["Match", "Reach", "Safety"],
+    "Acceptance Rate": ["8%", "4%", "49%"]
+}
 st.table(data)
 st.dataframe(data)
 if st.button("Run"):
