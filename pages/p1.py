@@ -26,7 +26,7 @@ if st.button("Confirm", key="confirm_name"):
 if st.session_state.confirmed:
     st.divider()
 
-    name = st.session_state.name_input.strip()
+    name = st.session_state.name.strip()
 
     if name == "":
         name = "User"
