@@ -60,6 +60,6 @@ def play_sound():
         </audio>
     """, unsafe_allow_html=True)
 
-if st.button("Submit"):
+if st.button("Submit2"):
     play_sound()
     st.success("Submitted!")
