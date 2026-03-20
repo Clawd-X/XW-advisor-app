@@ -18,8 +18,7 @@ if st.button("Improve / Get Feedback"):
     genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
     model = genai.GenerativeModel("gemini-pro")
-
-response = model.generate_content(
+    response = model.generate_content(
     f"""
     You are a college admissions advisor.
 
