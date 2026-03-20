@@ -15,10 +15,12 @@ school_size = st.session_state.get("school_size", "Not stated")
 location = st.session_state.get("location", "Not stated")
 
 if st.button("Improve / Get Feedback"):
-    genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+    client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
 
-    model = genai.GenerativeModel("gemini-pro")
-    response = model.generate_content(
+
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=
     f"""
     You are a college admissions advisor.
 
