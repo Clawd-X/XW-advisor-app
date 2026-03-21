@@ -15,7 +15,7 @@ school_size = st.session_state.get("school_size", "Not stated")
 location = st.session_state.get("location", "Not stated")
 
 if st.button("Improve / Get Feedback"):
-    client = genai.Client(api_key=st.secrets["key"])
+    client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
 
     response = client.models.generate_content(
         model="gemini-2.0-flash",
