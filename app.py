@@ -140,22 +140,16 @@ if st.session_state.step >= 1:
         st.success("Profile saved.")
         st.toast("Profile saved")
 
+        # st.session_state["gpa"] = gpa
+        # st.session_state["sat_score"] = sat_score
+        # st.session_state["rigor"] = rigor
+        # st.session_state["extracurriculars"] = extracurriculars
         # st.session_state["majors"] = majors
-        # st.session_state["budget"] = budget
         # st.session_state["interests"] = interests
-        # st.session_state["school_size"] = school_size
         # st.session_state["location"] = location
-
-        st.session_state["gpa"] = gpa
-        st.session_state["sat_score"] = sat_score
-        st.session_state["rigor"] = rigor
-        st.session_state["extracurriculars"] = extracurriculars
-        st.session_state["majors"] = majors
-        st.session_state["interests"] = interests
-        st.session_state["location"] = location
-        st.session_state["learning_style"] = learning_style
-        st.session_state["budget"] = budget
-        st.session_state["school_size"] = school_size
+        # st.session_state["learning_style"] = learning_style
+        # st.session_state["budget"] = budget
+        # st.session_state["school_size"] = school_size
 
         majors_str = ", ".join(majors) if majors else "Undecided"
         interests_str = ", ".join(interests) if interests else "General"
