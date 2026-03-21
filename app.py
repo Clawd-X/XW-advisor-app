@@ -1,16 +1,10 @@
 import streamlit as st
-import os
 
 st.set_page_config(page_title="College Advisor", layout="wide")
 
 st.title("🎓 College Advisor")
 st.subheader("Academic Stats")
 st.divider()
-
-st.write(f"Current Directory: {os.getcwd()}")
-st.write(f"Files here: {os.listdir('.')}")
-if os.path.exists(".streamlit"):
-    st.write(f"Secrets file exists: {os.path.exists('.streamlit/secrets.toml')}")
 
 st.write("Use the sidebar to navigate between tools.")
 

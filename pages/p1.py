@@ -39,38 +39,70 @@ if st.session_state.confirmed:
 
     st.subheader("Your Preferences")
 
-    # Majors
+# 1. Majors
     majors = st.multiselect(
         "Intended Major(s)",
-        ["Computer Science", "Biology", "Business", "Engineering", "Psychology"],
+        [
+            "Computer Science", "Data Science", "Cybersecurity", 
+            "Mechanical Engineering", "Electrical Engineering", "Biomedical Engineering",
+            "Biology", "Pre-Med", "Nursing", "Psychology", "Neuroscience",
+            "Business Administration", "Finance", "Marketing", "Economics",
+            "Political Science", "International Relations", "Pre-Law",
+            "Architecture", "Graphic Design", "Film & Media",
+            "English Literature", "History", "Philosophy", "Education"
+        ],
         key="majors"
     )
 
-    # Budget
+    # 2. Budget
     budget = st.selectbox(
-        "Budget",
-        ["< $20k", "$20k–$40k", "$40k–$70k", "$70k+"],
+        "Budget (Total Cost per Year)",
+        [
+            "Under $20k (Full Financial Aid / In-state)", 
+            "$20k–$40k", 
+            "$40k–$60k", 
+            "$60k–$80k", 
+            "$80k+", 
+            "No Budget Preference / Need-Blind Only"
+        ],
         key="budget"
     )
 
-    # Interests
+    # 3. Interests
     interests = st.multiselect(
-        "Interests",
-        ["Research", "Sports", "Party Scene", "Internships", "Campus Life"],
+        "Interests & Priorities",
+        [
+            "Undergraduate Research", "Study Abroad Programs", "Greek Life (Frats/Sororities)",
+            "D1 Sports / School Spirit", "Intramural Sports", "Performing Arts / Theater",
+            "Social Justice & Activism", "Religious Life", "Entrepreneurship / Startups",
+            "Internships & Co-ops", "Outdoor Adventures / Hiking", "Gaming & eSports",
+            "Quiet/Academic Focus", "Diverse/Multicultural Community", "LGBTQ+ Friendly"
+        ],
         key="interests"
     )
 
-    # School type
+    # 4. School Size
     school_size = st.radio(
         "Preferred School Size",
-        ["Small / Close-knit", "Medium", "Large / Big campus"],
+        [
+            "Small (< 5,000 students)", 
+            "Medium (5,000 – 15,000 students)", 
+            "Large (15,000+ students)",
+            "No Preference"
+        ],
         key="school_size"
     )
 
-    # Location
-    location = st.selectbox(
-        "Preferred Location",
-        ["California", "West Coast", "Anywhere in US", "Urban", "Suburban", "Rural"],
+    # 5. Location
+    location = st.multiselect(
+        "Preferred Location & Setting",
+        [
+            "Northeast (NYC, Boston, Philly)", "West Coast (CA, WA, OR)", 
+            "The South (TX, FL, GA)", "Midwest (Chicago, OH, MI)",
+            "International / Outside US", "Urban (Big City)", 
+            "Suburban (College Town)", "Rural (Secluded Campus)",
+            "Warm Weather", "Cold/Snowy Weather"
+        ],
         key="location"
     )
 
