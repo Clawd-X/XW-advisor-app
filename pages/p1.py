@@ -58,12 +58,12 @@ if st.session_state.confirmed:
     budget = st.selectbox(
         "Budget (Total Cost per Year)",
         [
-            "Under $20k (Full Financial Aid / In-state)", 
+            "<$20k", 
             "$20k–$40k", 
             "$40k–$60k", 
             "$60k–$80k", 
-            "$80k+", 
-            "No Budget Preference / Need-Blind Only"
+            ">$80k+", 
+            "No Budget Preference"
         ],
         key="budget"
     )
