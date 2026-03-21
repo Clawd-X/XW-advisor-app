@@ -1,11 +1,6 @@
 import streamlit as st
-
-def play_sound():
-    st.markdown("""
-        <audio autoplay>
-        <source src="https://www.soundjay.com/buttons/sounds/button-09.mp3" type="audio/mp3">
-        </audio>
-    """, unsafe_allow_html=True)
+from google import genai
+import time
 
 st.title("📊 Stats-Based College Advisor")
 st.header("Enter information below to get started!")
@@ -17,15 +12,17 @@ name_input = st.text_input("What's your name? (optional)", key="name_input")
 name = name_input.strip()
 
 # Initialize state
-if "confirmed" not in st.session_state:
-    st.session_state.confirmed = False
+if "step" not in st.session_state:
+    st.session_state.step = 0
 
 # Button
 if st.button("Confirm", key="confirm_name"):
-    st.session_state.confirmed = True
+    if "step" not in st.session_state:
+        st.session_state.step = 1
+
 
 # Step 2: Reveal section AFTER click
-if st.session_state.confirmed:
+if st.session_state.step >= 1:
     st.divider()
 
     if name == "":
@@ -39,7 +36,30 @@ if st.session_state.confirmed:
 
     st.subheader("Your Preferences")
 
-# 1. Majors
+    col1, col2 = st.columns(2)
+    with col1:
+        gpa = st.slider(
+        "Current Unweighted GPA", 
+        min_value=0.0, 
+        max_value=4.0, 
+        value=3.5, 
+        step=0.1,
+        help="Slide to your current GPA"
+    )
+        sat_score = st.slider(
+        "SAT Score 📝",
+        min_value=0,
+        max_value=1600,
+        value=1200,
+        step=10,
+        help="Slide to 0 if unapplicable"
+    )
+    with col2:
+        rigor = st.select_slider("Coursework Rigor", options=["Standard", "Honors", "AP/IB Heavy", "Most Rigorous Available"])
+        
+    extracurriculars = st.text_area("Extracurriculars, Leadership, & Awards", placeholder="e.g., Varsity Soccer Captain, Robotics State Champ, 100+ Volunteer Hours")
+
+    # 2. Majors
     majors = st.multiselect(
         "Intended Major(s)",
         [
@@ -54,23 +74,23 @@ if st.session_state.confirmed:
         key="majors"
     )
 
-    # 2. Budget
+    # 3. Budget & Financial Aid
     budget = st.selectbox(
-        "Budget (Total Cost per Year)",
+        "Budget & Financial Needs",
         [
-            "<$20k", 
-            "$20k–$40k", 
-            "$40k–$60k", 
-            "$60k–$80k", 
-            ">$80k+", 
+            "Full Financial Aid Required", 
+            "Seeking Merit Scholarships", 
+            "$20k–$40k per year", 
+            "$40k–$60k per year", 
+            "$60k–$80k per year", 
             "No Budget Preference"
         ],
         key="budget"
     )
 
-    # 3. Interests
+    # 4. Interests & Hobbies
     interests = st.multiselect(
-        "Interests & Priorities",
+        "Personal Interests & Hobbies",
         [
             "Undergraduate Research", "Study Abroad Programs", "Greek Life (Frats/Sororities)",
             "D1 Sports / School Spirit", "Intramural Sports", "Performing Arts / Theater",
@@ -81,7 +101,7 @@ if st.session_state.confirmed:
         key="interests"
     )
 
-    # 4. School Size
+    # 5. School Size
     school_size = st.radio(
         "Preferred School Size",
         [
@@ -93,7 +113,7 @@ if st.session_state.confirmed:
         key="school_size"
     )
 
-    # 5. Location
+    # 6. Location
     location = st.multiselect(
         "Preferred Location & Setting",
         [
@@ -106,12 +126,23 @@ if st.session_state.confirmed:
         key="location"
     )
 
+    # 7. Learning Style
+    learning_style = st.multiselect(
+        "Learning Style Preferences",
+        [
+            "Discussion-based / Seminar Classes", 
+            "Large Lectures", 
+            "Hands-on / Lab Research", 
+            "Project-based Learning", 
+            "Independent Study Opportunities"
+        ],
+        key="learning_style"
+    )
+
     st.divider()
 
     if st.button("Find Colleges", key="find_colleges"):
-        play_sound()
-        st.session_state["submitted"] = True
-        st.success("Profile saved! Go to the Short Answer page 👉")
+        st.success("Profile saved.")
 
         # st.session_state["majors"] = majors
         # st.session_state["budget"] = budget
@@ -119,11 +150,77 @@ if st.session_state.confirmed:
         # st.session_state["school_size"] = school_size
         # st.session_state["location"] = location
 
-        st.subheader("🎯 Your Profile")
-        st.write("Majors:", majors)
-        st.write("Budget:", budget)
-        st.write("Interests:", interests)
-        st.write("Size:", school_size)
-        st.write("Location:", location)
+        majors_str = ", ".join(majors) if majors else "Undecided"
+        interests_str = ", ".join(interests) if interests else "General"
+        location_str = ", ".join(location) if location else "Anywhere"
+        learning_str = ", ".join(learning_style) if learning_style else "Standard"
+        sat_display = "Test Optional" if sat_score == 0 else str(sat_score)
 
-        st.success("Generating recommendations...")
+        st.divider()
+        col_a, col_b = st.columns(2)
+        with col_a:
+            st.write(f"**Name:** {name}")
+            st.write(f"**GPA:** {gpa}")
+            st.write(f"**SAT Scores:** {sat_display}")
+            st.write(f"**Rigor:** {rigor}")
+            st.write(f"**Majors:** {majors_str}")
+            st.write(f"**Learning Style:** {learning_str}")
+        with col_b:
+            st.write(f"**Budget:** {budget}")
+            st.write(f"**Size:** {school_size}")
+            st.write(f"**Location:** {location_str}")
+            st.write(f"**Interests:** {interests_str}")
+            st.write(f"**Activities:** {extracurriculars if extracurriculars else 'None listed'}")
+        st.session_state.step = 2
+        st.rerun()
+
+if st.session_state.step >= 2:
+    st.success("Generating recommendations.")
+    time.sleep(0.85)
+    st.success("Generating recommendations..")
+    time.sleep(0.85)
+    st.success("Generating recommendations..")
+    time.sleep(0.85)
+
+    client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
+
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=f"""
+        You are a professional college admissions advisor.
+
+        Student Academic Profile:
+        - GPA: {gpa}
+        - Test Scores: {sat_display}
+        - Rigor: {rigor}
+        - Activities/Awards: {extracurriculars}
+
+        Preferences:
+        - Intended majors: {majors_str}
+        - Budget/Aid: {budget}
+        - Interests/Hobbies: {interests_str}
+        - School size: {school_size}
+        - Location: {location_str}
+        - Learning Style: {learning_str}
+
+        Task:
+        1. Recommend 5 colleges.
+        2. Categorize each as Reach, Match, or Safety (based on the GPA/Scores provided).
+        3. Explain WHY each fits their learning style and hobbies.
+        4. If any critical info is missing to make a good match, list it first.
+        """
+    )
+    st.write(response.text)
+    st.divider()
+    st.subheader("Ask a follow-up question?")
+    user_chat = st.chat_input("")
+
+    if user_chat:
+        # Use the same 'client' to send the user_chat + the previous context
+        follow_up = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=f"The user previously got these results: {response.text}. Now they ask: {user_chat}"
+        )
+        st.info(follow_up.text)
+
+
